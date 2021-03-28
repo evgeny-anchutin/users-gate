@@ -1,16 +1,18 @@
 package web.dao;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import web.model.User;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
 public class UserDaoImpl implements UserDao {
 
-    @Autowired
+    @PersistenceContext
     private EntityManager entityManager;
 
     public UserDaoImpl() {
@@ -38,4 +40,10 @@ public class UserDaoImpl implements UserDao {
         entityManager.merge(user);
         entityManager.persist(user);
     }
+
+    public EntityManager getEntityManager() {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("users.gate.hibernate");
+        return emf.createEntityManager();
+    }
+
 }
